@@ -136,32 +136,48 @@ def rolling_stability(
     }
 
 
-def ljung_box(x: np.ndarray, lags: int = 10, max_sample: int = 200_000) -> dict:
+def ljung_box(x: np.ndarray, lags: int = 10, max_sample: int = 50_000) -> dict:
     """
-    Test Ljung-Box para autocorrelación.
+    Test Ljung-Box para autocorrelación — implementación rápida numpy.
 
     H0: no hay autocorrelación hasta lag K.
     Si p < 0.05 → hay dependencia serial → potencial edge.
 
-    ¿Por qué es importante?
-    Si los retornos son i.i.d., no hay nada que explotar.
-    Autocorrelación = predictibilidad = posible edge.
-
-    Nota: para arrays > max_sample, usamos subsample.
-    Con 200K obs, Ljung-Box tiene poder estadístico más que suficiente.
+    Implementación propia O(n*lags) vs. statsmodels O(n²).
+    Para 200K obs, esto corre en <1 segundo.
 
     Returns: {'has_autocorrelation', 'min_p_value', 'lag_p_values'}
     """
-    # Subsample para velocidad — estadísticamente válido
-    if len(x) > max_sample:
-        rng = np.random.default_rng(42)
-        idx = np.sort(rng.choice(len(x), size=max_sample, replace=False))
-        x_sub = x[idx]
-    else:
-        x_sub = x
+    from scipy.stats import chi2
 
-    result = acorr_ljungbox(x_sub, lags=lags, return_df=True)
-    p_values = result['lb_pvalue'].values
+    # Subsample si necesario
+    if len(x) > max_sample:
+        x = x[:max_sample]  # Truncar (preserva orden temporal)
+
+    n = len(x)
+    x_centered = x - x.mean()
+    c0 = np.sum(x_centered ** 2) / n  # varianza
+
+    if c0 == 0:
+        return {
+            'has_autocorrelation': False,
+            'min_p_value': 1.0,
+            'lag_p_values': {i + 1: 1.0 for i in range(lags)},
+        }
+
+    # Calcular ACF para cada lag
+    acf_vals = np.empty(lags)
+    for k in range(1, lags + 1):
+        acf_vals[k - 1] = np.sum(x_centered[k:] * x_centered[:-k]) / (n * c0)
+
+    # Estadístico Ljung-Box: Q = n(n+2) * Σ(acf_k² / (n-k))
+    q_stats = np.empty(lags)
+    p_values = np.empty(lags)
+    cumsum = 0.0
+    for k in range(lags):
+        cumsum += acf_vals[k] ** 2 / (n - k - 1)
+        q_stats[k] = n * (n + 2) * cumsum
+        p_values[k] = 1.0 - chi2.cdf(q_stats[k], df=k + 1)
 
     return {
         'has_autocorrelation': bool(np.any(p_values < 0.05)),

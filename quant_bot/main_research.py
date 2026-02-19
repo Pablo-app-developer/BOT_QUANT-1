@@ -214,10 +214,75 @@ def phase_4(data: pd.DataFrame) -> list[dict]:
 # MAIN
 # ═══════════════════════════════════════════════
 
+
+def phase_5(data: pd.DataFrame) -> None:
+    """
+    FASE 5 — Validación de Estrategias.
+    
+    Toma los findings de Fase 4 (Mean Reversion + Volatility) y
+    prueba variantes de implementación con filtros específicos.
+    """
+    from research.phase5_validation import validate_mean_reversion_conditions, print_validation_report
+    
+    logger.info("=" * 55)
+    logger.info("  FASE 5 — VALIDACIÓN DE ESTRATEGIAS (MEAN REVERSION)")
+    logger.info("=" * 55)
+    
+    results = validate_mean_reversion_conditions(data)
+    print_validation_report(results)
+
+
+def phase_6(data: pd.DataFrame) -> None:
+    """
+    FASE 6 — Simulación de Estrategia Completa.
+    
+    Ejecuta la estrategia 'SnapBack M5' en el motor de backtest
+    con costes reales (spread 1.0, slippage 0.5).
+    """
+    import numpy as np
+    from strategies.snapback_m5 import generate_signals
+    from backtest.engine import run as run_backtest
+    from backtest.execution_model import ExecConfig
+    from backtest.metrics import full_report, print_report
+    
+    logger.info("=" * 55)
+    logger.info("  FASE 6 — SIMULACIÓN ESTRATEGIA: SNAPBACK M5")
+    logger.info("=" * 55)
+    
+    # 1. Generar Señales
+    logger.info("Generando señales (Sigma=3.5, Hold=15m)...")
+    signals = generate_signals(data, sigma=3.5, hold_period=15)
+    
+    # 2. Configurar Ejecución
+    cfg = ExecConfig(spread_pips=1.0, slippage_pips=0.5)
+    
+    # 3. Ejecutar Backtest
+    logger.info("Ejecutando motor de backtest...")
+    result = run_backtest(
+        data, 
+        signals, 
+        initial_equity=10_000.0,
+        cfg=cfg,
+        sl_pips=50, 
+        tp_pips=None
+    )
+    
+    # 4. Reporte
+    pnls = np.array([t.pnl_net for t in result.trades])
+    report = full_report(result.equity_curve, result.returns, pnls)
+    print_report(report)
+    
+    logger.info(f"Equity Final: ${result.final_equity:,.2f}")
+
+
+# ═══════════════════════════════════════════════
+# MAIN
+# ═══════════════════════════════════════════════
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Quant Research — EURUSD M1")
     parser.add_argument('--phase', type=int, default=1,
-                        help='Ejecutar hasta esta fase (1=data, 2=backtest, 4=edge)')
+                        help='Ejecutar hasta esta fase (1=data, 2=backtest, 4=edge, 5=valid, 6=sim)')
     parser.add_argument('--reload', action='store_true',
                         help='Forzar re-extracción de ZIPs y reproceso')
     args = parser.parse_args()
@@ -229,6 +294,14 @@ if __name__ == "__main__":
     if args.phase >= 2:
         phase_2(data)
 
-    # Fase 4
-    if args.phase >= 4:
+    # Fase 4 (Saltar si vamos directo a 6 para ahorrar tiempo)
+    if args.phase == 4:
         ranked = phase_4(data)
+
+    # Fase 5
+    if args.phase == 5:
+        phase_5(data)
+
+    # Fase 6
+    if args.phase >= 6:
+        phase_6(data)

@@ -362,9 +362,15 @@ def test_autocorrelation(data: pd.DataFrame) -> list[dict]:
     (autocorrelación positiva = momentum, negativa = mean reversion).
 
     Base: Test Ljung-Box. Si rechazamos H0 → hay estructura explotable.
+
+    Nota: Usamos los últimos 200K bars para velocidad.
+    Ljung-Box es O(n²) — con 3.7M es prohibitivo.
+    200K bares ≈ 6 meses M1, más que suficiente para detectar autocorrelación.
     """
     results = []
-    close = data['close']
+    # Truncar a últimos 200K bars ANTES de pct_change
+    max_n = 200_000
+    close = data['close'].iloc[-max_n:] if len(data) > max_n else data['close']
 
     for period in [1, 5, 15, 30]:
         rets = close.pct_change(period).dropna().values
