@@ -1,29 +1,27 @@
 
-# Quant Bot Project Status
+# Quant Bot Project Status: CLOSED (NO EDGE FOUND)
 
-## Current Phase: Phase 6 Completed (Strategy Simulation)
+## Current Phase: Project Audit Completed
 
-### Validated Strategy: "SnapBack M5" (Mean Reversion)
-*   **Logic:** Fade extreme volatility moves (>3.5 Sigma) aligned with M5 Trend.
-*   **Edge:** +4.86 bps (Gross).
-*   **Challenge:** Execution Gap (1.7 pips) requires sub-second execution.
+### Final Verdict: MARKET EFFICIENT
+After rigorous testing in Phase 4 (Redux) and Phase 6 (Audit), the project has concluded that there is **NO EXPLOITABLE RETAIL EDGE** in the EURUSD M1-H4 market (2016-2024).
 
-### Next Steps
-1.  **Refine Execution:** Move `SnapBack M5` into a live trading environment.
-2.  **Deploy:** Set up a live forward test on a Demo account to verify fills at 3.5 Sigma.
-3.  **Monitor:** Check slippage vs theoretical edge.
+### Key Findings
+1.  **Mean Reversion (M1):** The +4.86 bps edge was an artifact of corrupt 2025 data. In normal years (2016-2024), it loses money consistently.
+2.  **Trend Following (H1/H4):** Moving Average and Donchian strategies failed to produce a Sharpe Ratio > 0.0 (mostly negative).
+3.  **Volatility Breakout (M15):** Failed due to false breakouts and high intraday noise.
+4.  **Regime Analysis:** Filtering by Volatility (Low/High) did not improve performance enough to overcome spread costs.
 
-### How to Run Simulation
-```bash
-cd quant_bot
-python main_research.py --phase 6
-```
+### Validated Strategy: NONE
+- **SnapBack M5:** DEPRECATED (Data Artifact).
+- **H4 Momentum:** FAILED.
 
-### Key Files
-*   `research/phase5_validation.py`: Statistical validation logic.
-*   `strategies/snapback_m5.py`: Signal generation logic.
-*   `backtest/engine.py`: Bar-by-bar simulation engine.
-*   `workflows/final_strategy_report.md`: Detailed findings.
+### Recommendation
+**DO NOT DEPLOY THIS BOT.**
+The codebase serves as a pristine example of a **Negative Result Audit**. Use the `research/` scripts (`vbt_runner.py`, `vbt_strat_*.py`) as a template for testing future assets (Crypto, Stocks) but **do not trade EURUSD with this logic.**
 
-### Notes
-The system is statistically robust but sensitive to execution latency. Recommend using Limit Orders or Algo Execution at Close.
+### Repository Structure
+- `backtest/`: Execution Engine (Valid but unused).
+- `strategies/`: Deprecated Logic.
+- `research/`: **CORE VALUE.** Contains VectorBT scripts for rapid hypothesis testing.
+- `data/`: Processed market data (Warning: 2025 is corrupt).
