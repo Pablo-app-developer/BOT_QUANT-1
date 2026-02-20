@@ -1,24 +1,28 @@
 
-# Quant Bot Project Status: CLOSED (NO EDGE FOUND)
+# Quant Bot Project Status: CLOSED (TRANSITION TO QUANT-ML)
 
-## Current Phase: Project Audit Completed
+## Current Phase: Project Audit Completed -> **PIVOT CONFIRMED**
 
-### Final Verdict: MARKET EFFICIENT
-After rigorous testing in Phase 4 (Redux) and Phase 6 (Audit), the project has concluded that there is **NO EXPLOITABLE RETAIL EDGE** in the EURUSD M1-H4 market (2016-2024).
+### Final Verdict: LINEAR LOGIC FAILED
+After rigorous testing:
+1.  **Phase 4 (Redux):** Proved simple edges (MA Cross, Breakout) fail on EURUSD/BTC/NQ data (2016-2026).
+2.  **Phase 7 (Audit):** Exposed H4 Trend as a "Bull Market Illusion" (failed in 2022).
 
-### Key Findings
-1.  **Mean Reversion (M1):** The +4.86 bps edge was an artifact of corrupt 2025 data. In normal years (2016-2024), it loses money consistently.
-2.  **Trend Following (H1/H4):** Moving Average and Donchian strategies failed to produce a Sharpe Ratio > 0.0 (mostly negative).
-3.  **Volatility Breakout (M15):** Failed due to false breakouts and high intraday noise.
-4.  **Regime Analysis:** Filtering by Volatility (Low/High) did not improve performance enough to overcome spread costs.
+### Strategic Decision: QUANT ML (Same Science, New Hypothesis)
+We are closing `BOT_QUANT-1` to launch `BOT_QUANT-ML`.
+**The Scientific Method Remains:**
+- **Hypothesis Generator:** Changed from "Human Indicators" to "Machine Learning Models" (XGBoost/Transformers).
+- **Validation (Gatekeeper):** The Phase 6 Framework (Walk-Forward, Regime Filter, Cost Stress) **REMAINS THE LAW.**
+- **Goal:** Find *Non-Linear* patterns invisible to simple indicators.
 
-### Validated Strategy: NONE
+### Validated Strategy: NONE (Linear)
 - **SnapBack M5:** DEPRECATED (Data Artifact).
-- **H4 Momentum:** FAILED.
+- **H4 Momentum:** FAILED (Correlation Trap).
 
 ### Recommendation
-**DO NOT DEPLOY THIS BOT.**
-The codebase serves as a pristine example of a **Negative Result Audit**. Use the `research/` scripts (`vbt_runner.py`, `vbt_strat_*.py`) as a template for testing future assets (Crypto, Stocks) but **do not trade EURUSD with this logic.**
+**ARCHIVE THIS REPO.** It contains the "Negative Proof".
+Use the `research/` validation scripts as the **AUDITOR** for the new ML models.
+**DO NOT TRADELIST** any strategy from this codebase.
 
 ### Repository Structure
 - `backtest/`: Execution Engine (Valid but unused).
