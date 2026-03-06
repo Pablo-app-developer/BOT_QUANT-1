@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-03-06T02:33:28.320142+00:00",
+  "evaluation_date": "2026-03-06",
+  "last_trading_day": "2026-03-04",
+  "today_open": 248.47239000000002,
+  "today_close": 251.554465,
+  "today_return": 0.012404094475043986,
+  "today_return_pct": 1.24,
+  "filter_active": false,
+  "filter_condition": "D\u00eda previo retorno: 1.240%  (umbral: <-0.1%)",
+  "signal_for_tomorrow": {
+    "status": "NO_TRADE",
+    "action": "Sin trade ma\u00f1ana.",
+    "entry_time": "N/A",
+    "exit_time": "N/A",
+    "cost_rt_pts": 2.0,
+    "threshold_1h": 0.3
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "timestamp": "2026-03-04T04:03:02.174236+00:00",
+  "latency_test": [
+    {
+      "entry": "CLOSE 14:29 (ideal)",
+      "n": 196,
+      "sharpe": 2.425977495954123,
+      "annual": 0.4961937202720055,
+      "pvalue": 0.034088086478046814,
+      "win_rate": 0.6173469387755102,
+      "max_dd": -0.1582909306225777
+    },
+    {
+      "entry": "OPEN  14:30 (+1 min)",
+      "n": 196,
+      "sharpe": 2.4216640876224846,
+      "annual": 0.49511689185078156,
+      "pvalue": 0.03440408458011412,
+      "win_rate": 0.6173469387755102,
+      "max_dd": -0.15835301097799434
+    },
+    {
+      "entry": "OPEN  14:31 (+2 min)",
+      "n": 196,
+      "sharpe": 2.3356781444886603,
+      "annual": 0.47138423212621006,
+      "pvalue": 0.04125002119150693,
+      "win_rate": 0.6224489795918368,
+      "max_dd": -0.16368391046728395
+    },
+    {
+      "entry": "OPEN  14:34 (+5 min)",
+      "n": 196,
+      "sharpe": 2.2810208743170692,
+      "annual": 0.45072695783586036,
+      "pvalue": 0.046180845443175966,
+      "win_rate": 0.6122448979591837,
+      "max_dd": -0.16186142957679317
+    },
+    {
+      "entry": "OPEN  14:39 (+10 min)",
+      "n": 196,
+      "sharpe": 2.391562502870133,
+      "annual": 0.4725554890889936,
+      "pvalue": 0.036680313910613556,
+      "win_rate": 0.6071428571428571,
+      "max_dd": -0.15355139947414473
+    }
+  ],
+  "spread_real": {
+    "n": 244,
+    "p25": 1.0663406209813704,
+    "median": 1.106631764834077,
+    "p75": 1.1719816274940293,
+    "p95": 2.7920443435816016,
+    "pct_above_assumption": 0.0
+  },
+  "slippage_scenarios": [
+    {
+      "scenario": "Slip fijo: 0 pts",
+      "sharpe": 2.425977495954123,
+      "annual": 0.4961937202720055,
+      "win_rate": 0.6173469387755102
+    },
+    {
+      "scenario": "Slip fijo: 1 pt",
+      "sharpe": 2.3042818532694374,
+      "annual": 0.4651859761637418,
+      "win_rate": 0.6173469387755102
+    },
+    {
+      "scenario": "Slip fijo: 2 pts",
+      "sharpe": 2.182586210584752,
+      "annual": 0.43481835187633977,
+      "win_rate": 0.6122448979591837
+    },
+    {
+      "scenario": "Slip fijo: 3 pts",
+      "sharpe": 2.060890567900067,
+      "annual": 0.40507768442899295,
+      "win_rate": 0.6071428571428571
+    },
+    {
+      "scenario": "Slip proporcional 0.5\u00d7ATR",
+      "sharpe": -5.313282023927481,
+      "annual": -0.6110497959828622,
+      "win_rate": 0.35714285714285715
+    },
+    {
+      "scenario": "Slip proporcional 1.0\u00d7ATR",
+      "sharpe": -12.149189555530752,
+      "annual": -0.899813958190322,
+      "win_rate": 0.1683673469387755
+    }
+  ],
+  "monte_carlo": {
+    "n": 196,
+    "real_sharpe": 2.425977495954123,
+    "ci_lo": 0.22327204030084213,
+    "ci_hi": 4.8161478114143685,
+    "mc_pvalue": 0.0738,
+    "pct_positive": 1.0,
+    "pct_beat_real": 0.2032,
+    "p5_dd": -0.13272579645586155,
+    "ruin_30": 0.0
+  },
+  "statistical_power": {
+    "power_50": {
+      "n_required": 116,
+      "months": 28.424603174603174
+    },
+    "power_70": {
+      "n_required": 202,
+      "months": 49.498015873015866
+    },
+    "power_80": {
+      "n_required": 265,
+      "months": 64.93551587301587
+    },
+    "power_90": {
+      "n_required": 367,
+      "months": 89.9295634920635
+    },
+    "accumulated": 48,
+    "rate_per_month": 4.0,
+    "months_to_80pct_power": 54.25
+  },
+  "oos_equity": {
+    "ci_lo": 0.9501068918539023,
+    "ci_hi": 1.3655864379903464,
+    "n": 48
+  },
+  "checks": {
+    "robusto_latencia_2min": true,
+    "spread_real_ok": true,
+    "robusto_slippage_fijo_2pt": true,
+    "mc_significativo": true,
+    "mc_ruina_baja": true,
+    "oos_equity_positivo": true,
+    "oos_ci_positivo": false
+  },
+  "score": 6,
+  "verdict": "\u2705 EJECUCI\u00d3N REALISTA V\u00c1LIDA \u2014 edge no depende de fills perfectos"
+}

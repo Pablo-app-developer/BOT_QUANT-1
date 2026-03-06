@@ -1,0 +1,140 @@
+{
+  "timestamp": "2026-03-04T03:07:18.395140+00:00",
+  "threshold": 0.002,
+  "oos_year": 2025,
+  "cost_rt_duck": 0.07317073170731708,
+  "cost_rt_nq_pts": 6.000000000000001,
+  "correlation_IS": {
+    "n": 562,
+    "pearson_r": 0.08078994760110932,
+    "pearson_p": 0.055605387627508544,
+    "spearman_r": 0.12988054574571675,
+    "spearman_p": 0.002033875361717027,
+    "dir_rate": 0.5782918149466192,
+    "z_dir": 3.712055957364459,
+    "p_dir": 0.00020558252072055971,
+    "binom_p": 0.00011812725430760564,
+    "is_significant": false
+  },
+  "correlation_OOS": {
+    "n": 136,
+    "pearson_r": 0.14143579051136204,
+    "pearson_p": 0.10049605259712421,
+    "spearman_r": 0.0955631887791613,
+    "spearman_p": 0.26842495183215953,
+    "dir_rate": 0.5294117647058824,
+    "z_dir": 0.6859943405700355,
+    "p_dir": 0.4927166772270877,
+    "binom_p": 0.2742511807433686,
+    "is_significant": false
+  },
+  "backtest_IS": {
+    "n": 562,
+    "total_ret": 0.28334131938027896,
+    "annual_ret": 0.06656135022300291,
+    "sharpe": 0.7685219244967112,
+    "win_rate": 0.5604982206405694,
+    "profit_factor": 1.140544047361517,
+    "max_dd": -0.14665428715085713,
+    "pvalue": 0.2520079826811176,
+    "pearson_r": 0.08078994760110932
+  },
+  "backtest_OOS": {
+    "n": 136,
+    "total_ret": -0.0068231640072793365,
+    "annual_ret": -0.006681870562234904,
+    "sharpe": 0.03635589311743942,
+    "win_rate": 0.5,
+    "profit_factor": 1.0088756218162949,
+    "max_dd": -0.11162248049738521,
+    "pvalue": 0.9788102602926987
+  },
+  "stress_tests": {
+    "spread_x2": {
+      "win_rate": 0.5516014234875445,
+      "sharpe": 0.5070398422391984,
+      "pvalue": 0.4496521046314966,
+      "survived": false
+    },
+    "spread_x3": {
+      "win_rate": 0.5462633451957295,
+      "sharpe": 0.24558979931746913,
+      "pvalue": 0.7141820997744892,
+      "survived": false
+    },
+    "delay_15m": {
+      "win_rate": 0.5284697508896797,
+      "sharpe": -0.005236794384184953,
+      "pvalue": 0.9937685547832006,
+      "survived": false
+    },
+    "slippage_x3": {
+      "win_rate": 0.5516014234875445,
+      "sharpe": 0.5070398422391984,
+      "pvalue": 0.4496521046314966,
+      "survived": false
+    },
+    "no_outliers": {
+      "win_rate": 0.5108910891089109,
+      "sharpe": -2.78209222191268,
+      "pvalue": 9.507753506812524e-05,
+      "survived": false
+    },
+    "bear_2022": {
+      "win_rate": 0.5536723163841808,
+      "sharpe": 0.4291677935607897,
+      "pvalue": 0.7202791661772446,
+      "survived": false
+    },
+    "year_2021": {
+      "win_rate": 0.582089552238806,
+      "sharpe": 0.3206380150531214,
+      "pvalue": 0.8161675600910747,
+      "survived": false
+    },
+    "no_threshold": {
+      "win_rate": 0.3214670981661273,
+      "sharpe": -0.761581413838803,
+      "pvalue": 0.14465815269125695,
+      "survived": false
+    },
+    "long_only": {
+      "win_rate": 0.5689655172413793,
+      "sharpe": 0.8421283679065472,
+      "pvalue": 0.3678956497959581,
+      "survived": false
+    },
+    "short_only": {
+      "win_rate": 0.5514705882352942,
+      "sharpe": 0.6952580309682678,
+      "pvalue": 0.47153600062092244,
+      "survived": false
+    }
+  },
+  "monte_carlo": {
+    "n_runs": 2000,
+    "n_trades": 562,
+    "real_sharpe": 0.7685219244967112,
+    "real_equity": 0.28334131938027896,
+    "pct_positive": 1.0,
+    "pct_beat_real": 0.9395,
+    "median_sharpe": 0.7685219244967113,
+    "p5_dd": -0.2557204424595646,
+    "ruin_prob": 0.0
+  },
+  "checks": {
+    "corr_IS_significativa": false,
+    "corr_OOS_significativa": false,
+    "backtest_IS_positivo": false,
+    "backtest_OOS_positivo": false,
+    "stress_spread_x2": false,
+    "stress_no_outliers": false,
+    "stress_bear_2022": false,
+    "edge_estable_temporal": true,
+    "mc_robusto": true,
+    "bruto_positivo": true
+  },
+  "score": 3,
+  "max_score": 10,
+  "verdict": "\u274c ILUSI\u00d3N ESTADISTICA \u2014 no explotable"
+}

@@ -12,7 +12,10 @@ build/
 venv/
 env/
 
-# Data files (too large for git)
+# Data files (too large for git — download via download_dukascopy.py)
+quant_bot/data/USATECHIDXUSD/
+quant_bot/data/USA500IDXUSD/
+quant_bot/data/USA30IDXUSD/
 quant_bot/data/raw/
 quant_bot/data/processed/
 
@@ -28,3 +31,16 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Agent internal data (not project code)
+.agent/
+.agents/
+.gemini/
+
+# Risk engine live data (local only)
+quant_bot/execution/risk_data/*.json
+
+# Temporary
+/tmp/
+test_*.py
+nohup.out
