@@ -22,6 +22,9 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from quant_bot.execution.nq_h3v2_risk_engine import RiskEngine, RiskParams
+from quant_bot.execution.telegram_notifier import (
+    alert_daily_status, alert_trade_open, alert_trade_close
+)
 
 ARTIFACTS_DIR = PROJECT_ROOT / "quant_bot" / "research" / "artifacts" / "nq"
 SIGNAL_FILE = ARTIFACTS_DIR / "daily_signals.json"
@@ -151,6 +154,8 @@ def execute_trade(direction_str: str, lots: float, current_price: float, sl_pric
         return False
         
     logger.info(f"✅ ORDEN EJECUTADA MÁGICAMENTE. Ticket #{result.order}. Precio rellenado: {result.price}")
+    # Enviar comprobante al teléfono por Telegram
+    alert_trade_open(direction_str, lots, result.price, sl_price, get_mt5_balance())
     return result.order
 
 def close_all_h3_positions():
@@ -184,6 +189,7 @@ def close_all_h3_positions():
             if res.retcode == mt5.TRADE_RETCODE_DONE:
                 logger.info(f"✅ Posición {pos.ticket} CERRADA con éxito a las 19:59 UTC.")
                 closed_count += 1
+                alert_trade_close(closed_count, price)
             else:
                 logger.error(f"Fallo al cerrar {pos.ticket}: {res.retcode} / {res.comment}")
                 
@@ -223,6 +229,7 @@ def bot_loop():
                 filtro = get_filter_status()
                 if not filtro:
                     logger.info("Filtro previo OFF. Cancelando operación por hoy.")
+                    alert_daily_status(filtro_activo=False)
                     trade_executed_today = True # Evitar loops
                     time.sleep(60)
                     continue
@@ -253,6 +260,8 @@ def bot_loop():
                 
                 if direction:
                     logger.info("⚠️ SETUP CONFIRMADO. PREPARANDO ORDEN...")
+                    alert_daily_status(filtro_activo=True, ret_1h=ret_1h, atr_pct=atr_pct, balance=current_balance)
+                    
                     # Engine internal checks
                     trade_obj = engine.open_trade(
                         direction=direction,
