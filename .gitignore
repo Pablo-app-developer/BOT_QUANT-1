@@ -44,3 +44,9 @@ quant_bot/execution/risk_data/*.json
 /tmp/
 test_*.py
 nohup.out
+
+# Credentials & Secrets
+*credenciales*.txt
+*_credentials.txt
+*.env
+.env*
