@@ -46,6 +46,8 @@ except ImportError:
     logger.warning("Paquete 'MetaTrader5' no encontrado. (Ejecuta: pip install MetaTrader5 en Windows/Wine)")
     MT5_AVAILABLE = False
 
+MT5_CONFIG_FILE = PROJECT_ROOT / "quant_bot" / "execution" / "config" / "mt5_config.json"
+
 
 # ==========================================
 # CONFIGURACIÓN DEL BROKER Y CONTRATO
@@ -64,6 +66,23 @@ def init_mt5():
         logger.error(f"Error cargando MT5: {mt5.last_error()}")
         return False
         
+    # Auto-Login (Especial para Linux Headless o reconexiones)
+    if MT5_CONFIG_FILE.exists():
+        try:
+            with open(MT5_CONFIG_FILE, 'r') as f:
+                creds = json.load(f)
+            acc = creds.get("account")
+            pw = creds.get("password")
+            srv = creds.get("server")
+            if acc and pw and srv:
+                authorized = mt5.login(login=acc, password=pw, server=srv)
+                if not authorized:
+                    logger.error(f"Error de Login MT5 en cuenta {acc}: {mt5.last_error()}")
+                    return False
+                logger.info(f"🔑 Login existoso a la cuenta {acc} en el servidor {srv}")
+        except Exception as e:
+            logger.error(f"Fallo al leer config MT5 o loguearse: {e}")
+            
     # Activar el símbolo
     if not mt5.symbol_select(SYMBOL, True):
         logger.error(f"Símbolo {SYMBOL} no encontrado en Market Watch.")
