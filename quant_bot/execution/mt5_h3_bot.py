@@ -77,7 +77,7 @@ def init_mt5():
     logger.info(f"Intentando conectar a MT5 en: {terminal_path} (Modo Portable)")
     
     # Intentar inicializar pasándole la ruta explícita (supera fallos de registro en Linux/Wine)
-    if not mt5.initialize(path=terminal_path, portable=True):
+    if not mt5.initialize(path=terminal_path):
         logger.warning(f"Fallo init con ruta {terminal_path}: {mt5.last_error()}.")
         logger.info("Intentando inicialización genérica (Auto-detect)...")
         if not mt5.initialize():
