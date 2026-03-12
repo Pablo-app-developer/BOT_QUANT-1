@@ -74,17 +74,18 @@ def init_mt5():
     # Nueva ruta sin espacios para evitar líos de shell en Linux
     terminal_path = r"C:\mt5\terminal64.exe"
     
-    logger.info(f"Intentando conectar a MT5 en: {terminal_path} (Modo Portable)")
+    logger.info("Intentando conectar a terminal MT5...")
     
-    # Intentar inicializar pasándole la ruta explícita (supera fallos de registro en Linux/Wine)
-    if not mt5.initialize(path=terminal_path):
-        logger.warning(f"Fallo init con ruta {terminal_path}: {mt5.last_error()}.")
-        logger.info("Intentando inicialización genérica (Auto-detect)...")
-        if not mt5.initialize():
+    # 1. Intentar conectar a una instancia ya abierta (mejor para Wine Headless)
+    if mt5.initialize():
+        logger.info("✅ Conectado a terminal MT5 existente.")
+    else:
+        logger.info(f"No hay terminal abierta o error: {mt5.last_error()}. Intentando iniciar desde {terminal_path}...")
+        # 2. Intentar abrirla con ruta explícita
+        if not mt5.initialize(path=terminal_path):
             logger.error(f"Error crítico cargando MT5: {mt5.last_error()}")
             return False
-    
-    logger.info("✅ Terminal MT5 detectada e inicializada.")        
+        logger.info("✅ Terminal MT5 iniciada e inicializada.")        
     # Auto-Login (Especial para Linux Headless o reconexiones)
     if MT5_CONFIG_FILE.exists():
         try:
