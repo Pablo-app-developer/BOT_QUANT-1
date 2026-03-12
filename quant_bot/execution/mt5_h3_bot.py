@@ -36,8 +36,10 @@ logger.info(f" INICIANDO BOT EN VPS - {datetime.now()}")
 logger.info(f"Ruta de Trabajo: {os.getcwd()}")
 logger.info("======================================================")
 
-PROJECT_ROOT = Path("/root/BOT_QUANT-1")
+# PROJECT_ROOT dinámico para funcionar en Linux o Wine
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
+logger.info(f"Project Root detectado: {PROJECT_ROOT}")
 
 # Imports del proyecto
 from quant_bot.execution.nq_h3v2_risk_engine import RiskEngine, RiskParams
