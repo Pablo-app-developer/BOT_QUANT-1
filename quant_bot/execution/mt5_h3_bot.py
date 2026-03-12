@@ -11,16 +11,31 @@ EJECUCIÓN REALISTA + PREVENCIÓN DE RUINA:
    - Cierra todo a las 19:59:00 UTC
 """
 
-import time
-import json
-import logging
+import os
 import sys
+import json
+import time
+import logging
+import requests
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+# Configuración de LOG inmediata
+LOG_FILE_PATH = "/root/BOT_QUANT-1/quant_bot/execution/risk_data/vps_daemon.log"
+logging.basicConfig(
+    level=logging.INFO, 
+    format='%(asctime)s - VPS_BOT - %(message)s',
+    handlers=[logging.FileHandler(LOG_FILE_PATH)]
+)
+logger = logging.getLogger("VPS_Exec")
+logger.info("======================================================")
+logger.info(f"🚀 INICIANDO BOT EN VPS - {datetime.now()}")
+logger.info("======================================================")
+
+PROJECT_ROOT = Path("/root/BOT_QUANT-1")
 sys.path.insert(0, str(PROJECT_ROOT))
 
+# Imports del proyecto
 from quant_bot.execution.nq_h3v2_risk_engine import RiskEngine, RiskParams
 from quant_bot.execution.telegram_notifier import (
     alert_daily_status, alert_trade_open, alert_trade_close
@@ -28,18 +43,6 @@ from quant_bot.execution.telegram_notifier import (
 
 ARTIFACTS_DIR = PROJECT_ROOT / "quant_bot" / "research" / "artifacts" / "nq"
 SIGNAL_FILE = ARTIFACTS_DIR / "daily_signals.json"
-
-# Configuración de logging robusta para VPS (Sólo archivo para evitar fallos de handle en Wine Headless)
-log_file = PROJECT_ROOT / "quant_bot" / "execution" / "risk_data" / "vps_daemon.log"
-logging.basicConfig(
-    level=logging.INFO, 
-    format='%(asctime)s - VPS_BOT - %(message)s',
-    handlers=[
-        logging.FileHandler(log_file)
-    ]
-)
-logger = logging.getLogger("VPS_Exec")
-logger.info(f"--- LOG INICIALIZADO EN {log_file} ---")
 
 try:
     import MetaTrader5 as mt5
