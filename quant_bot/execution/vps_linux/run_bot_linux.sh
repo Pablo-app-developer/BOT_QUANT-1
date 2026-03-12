@@ -35,8 +35,14 @@ echo ">>> Logs Err/WINE: $LOG_ERR"
 
 mkdir -p "$(dirname "$LOG_OUT")"
 
+# Evitar crasheos de handles de streams en Python 3.11 + Wine
+export PYTHONUNBUFFERED=1
+export PYTHONIOENCODING=utf-8
+export WINEDEBUG=-all
+
 # Lanza el bot como proceso background (&) usando nohup para que no muera al cerrar ssh
-nohup xvfb-run -a -s "-screen 0 1024x768x24" wine python "$BOT_SCRIPT" > "$LOG_OUT" 2> "$LOG_ERR" &
+# Redirigimos stdin desde /dev/null para evitar el error "Invalid handle" de sys.stdin
+nohup xvfb-run -a -s "-screen 0 1024x768x24" wine python "$BOT_SCRIPT" < /dev/null > "$LOG_OUT" 2> "$LOG_ERR" &
 
 # Guardar el ID del proceso
 PID=$!
