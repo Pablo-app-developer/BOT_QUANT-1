@@ -32,8 +32,8 @@ sleep 90
 # Ejecutar el bot con reinicio automático
 while true; do
     echo ">>> Iniciando Bot Quant..."
-    cd /root/BOT_QUANT-1
-    wine "C:/python311/python.exe" quant_bot/execution/mt5_h3_bot.py
+    cd /root/.wine_mt5/drive_c/bot
+    wine "C:/python311/python.exe" "C:/bot/quant_bot/execution/mt5_h3_bot.py"
     echo ">>> Bot terminó. Reiniciando en 10s..."
     sleep 10
 done
