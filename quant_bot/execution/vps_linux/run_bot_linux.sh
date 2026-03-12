@@ -41,8 +41,8 @@ export PYTHONIOENCODING=utf-8
 export WINEDEBUG=-all
 
 # Lanza el bot como proceso background (&) usando nohup para que no muera al cerrar ssh
-# Redirigimos stdin desde /dev/null para evitar el error "Invalid handle" de sys.stdin
-nohup xvfb-run -a -s "-screen 0 1024x768x24" wine python "$BOT_SCRIPT" < /dev/null > "$LOG_OUT" 2> "$LOG_ERR" &
+# Usamos 'wine cmd /c python -u' porque es más estable manejando los streams de salida que el binario directo en Wine Headless
+nohup xvfb-run -a -s "-screen 0 1024x768x24" wine cmd /c "python -u $BOT_SCRIPT" < /dev/null > "$LOG_OUT" 2> "$LOG_ERR" &
 
 # Guardar el ID del proceso
 PID=$!
