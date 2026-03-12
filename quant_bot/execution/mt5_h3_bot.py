@@ -74,13 +74,17 @@ def init_mt5():
     # Ruta estándar si se copia la carpeta en Wine o Windows por defecto
     terminal_path = r"C:\Program Files\MetaTrader 5\terminal64.exe"
     
+    logger.info(f"Intentando conectar a MT5 en: {terminal_path} (Modo Portable)")
+    
     # Intentar inicializar pasándole la ruta explícita (supera fallos de registro en Linux/Wine)
-    if not mt5.initialize(path=terminal_path):
-        logger.warning(f"Fallo init con ruta {terminal_path}: {mt5.last_error()}. Intentando auto-detect...")
+    if not mt5.initialize(path=terminal_path, portable=True):
+        logger.warning(f"Fallo init con ruta {terminal_path}: {mt5.last_error()}.")
+        logger.info("Intentando inicialización genérica (Auto-detect)...")
         if not mt5.initialize():
             logger.error(f"Error crítico cargando MT5: {mt5.last_error()}")
             return False
-        
+    
+    logger.info("✅ Terminal MT5 detectada e inicializada.")        
     # Auto-Login (Especial para Linux Headless o reconexiones)
     if MT5_CONFIG_FILE.exists():
         try:
