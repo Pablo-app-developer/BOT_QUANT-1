@@ -28,11 +28,11 @@ os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
 logging.basicConfig(
     level=logging.INFO, 
     format='%(asctime)s - VPS_BOT - %(message)s',
-    handlers=[logging.FileHandler(LOG_FILE_PATH)]
+    handlers=[logging.FileHandler(LOG_FILE_PATH, encoding='utf-8')]
 )
 logger = logging.getLogger("VPS_Exec")
 logger.info("======================================================")
-logger.info(f"🚀 INICIANDO BOT EN VPS - {datetime.now()}")
+logger.info(f" INICIANDO BOT EN VPS - {datetime.now()}")
 logger.info(f"Ruta de Trabajo: {os.getcwd()}")
 logger.info("======================================================")
 
