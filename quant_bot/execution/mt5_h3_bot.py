@@ -29,15 +29,17 @@ from quant_bot.execution.telegram_notifier import (
 ARTIFACTS_DIR = PROJECT_ROOT / "quant_bot" / "research" / "artifacts" / "nq"
 SIGNAL_FILE = ARTIFACTS_DIR / "daily_signals.json"
 
+# Configuración de logging robusta para VPS (Sólo archivo para evitar fallos de handle en Wine Headless)
+log_file = PROJECT_ROOT / "quant_bot" / "execution" / "risk_data" / "vps_daemon.log"
 logging.basicConfig(
     level=logging.INFO, 
     format='%(asctime)s - VPS_BOT - %(message)s',
     handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler(PROJECT_ROOT / "quant_bot" / "execution" / "risk_data" / "vps_daemon.log")
+        logging.FileHandler(log_file)
     ]
 )
 logger = logging.getLogger("VPS_Exec")
+logger.info(f"--- LOG INICIALIZADO EN {log_file} ---")
 
 try:
     import MetaTrader5 as mt5
