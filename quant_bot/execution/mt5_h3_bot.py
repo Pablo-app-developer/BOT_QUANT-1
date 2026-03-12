@@ -221,9 +221,9 @@ def close_all_h3_positions():
     return closed_count
 
 def bot_loop():
-    logger.info("╔═════════════════════════════════════════════════════╗")
-    logger.info("║  VPS DAEMON — AUTOPILOT NQ H3v2 Inciado             ║")
-    logger.info("╚═════════════════════════════════════════════════════╝")
+    logger.info("-----------------------------------------------------")
+    logger.info("  VPS DAEMON -- AUTOPILOT NQ H3v2 Inciado             ")
+    logger.info("-----------------------------------------------------")
     
     if not MT5_AVAILABLE:
         logger.warning("Corriendo en modo SECRETO/SIMULACIÓN porque MT5 no está.")
