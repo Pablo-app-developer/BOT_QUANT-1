@@ -71,8 +71,8 @@ def init_mt5():
     if not MT5_AVAILABLE:
         return False
         
-    # Ruta estándar si se copia la carpeta en Wine o Windows por defecto
-    terminal_path = r"C:\Program Files\MetaTrader 5\terminal64.exe"
+    # Nueva ruta sin espacios para evitar líos de shell en Linux
+    terminal_path = r"C:\mt5\terminal64.exe"
     
     logger.info(f"Intentando conectar a MT5 en: {terminal_path} (Modo Portable)")
     
