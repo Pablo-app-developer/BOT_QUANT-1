@@ -20,8 +20,11 @@ import requests
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-# Configuración de LOG inmediata
-LOG_FILE_PATH = "/root/BOT_QUANT-1/quant_bot/execution/risk_data/vps_daemon.log"
+# Usamos rutas relativas para evitar problemas de mapeo Z:\ en Wine
+LOG_FILE_PATH = "quant_bot/execution/risk_data/vps_daemon.log"
+# Asegurar que la carpeta existe
+os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO, 
     format='%(asctime)s - VPS_BOT - %(message)s',
@@ -30,6 +33,7 @@ logging.basicConfig(
 logger = logging.getLogger("VPS_Exec")
 logger.info("======================================================")
 logger.info(f"🚀 INICIANDO BOT EN VPS - {datetime.now()}")
+logger.info(f"Ruta de Trabajo: {os.getcwd()}")
 logger.info("======================================================")
 
 PROJECT_ROOT = Path("/root/BOT_QUANT-1")
